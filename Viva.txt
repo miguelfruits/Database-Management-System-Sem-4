@@ -1,0 +1,12 @@
+ PL/SQL block
+A PL/SQL block is a program unit containing DECLARE, BEGIN, and END sections.
+
+Procedure:
+ Named block that performs a task.
+
+Package:
+ Collection of related procedures/functions.
+
+Trigger:
+ Auto-executed block on database event.
+

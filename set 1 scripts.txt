@@ -1,0 +1,70 @@
+drop table Registrations;
+drop table Speakers;
+drop table Events;
+
+select * from Events;
+
+CREATE TABLE Events (
+    EventID NUMBER PRIMARY KEY,
+    Name VARCHAR2(25) NOT NULL,
+    Description VARCHAR2(45),
+    EventDate DATE NOT NULL,  
+    Location VARCHAR2(25) NOT NULL
+);
+CREATE TABLE Speakers (
+    SpeakerID NUMBER PRIMARY KEY,
+    Name VARCHAR2(25) NOT NULL,
+    Bio VARCHAR2(25),
+    Expertise VARCHAR2(25) NOT NULL
+);
+CREATE TABLE Registrations (
+    RegistrationID NUMBER PRIMARY KEY,
+    EventID NUMBER NOT NULL,
+    SpeakerID NUMBER NOT NULL,
+    AttendeeName VARCHAR2(25) NOT NULL,
+    Email VARCHAR2(25) NOT NULL,
+    CONSTRAINT fk_event FOREIGN KEY (EventID) REFERENCES Events(EventID),
+    CONSTRAINT fk_speaker FOREIGN KEY (SpeakerID) REFERENCES Speakers(SpeakerID)
+);
+
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (1, 'Tech Summit 2025', 'A technology-focused conference.', TO_DATE('2025-06-15', 'YYYY-MM-DD'), 'San Francisco');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (2, 'AI Innovations', 'Exploring the future of AI.', TO_DATE('2025-07-20', 'YYYY-MM-DD'), 'New York');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (3, 'Cybersecurity Forum', 'Discussion on latest cybersecurity threats.', TO_DATE('2025-08-10', 'YYYY-MM-DD'), 'Los Angeles');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (4, 'Cloud Computing Expo', 'Cloud technology advancements and trends.', TO_DATE('2025-09-05', 'YYYY-MM-DD'), 'Chicago');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (5, 'Blockchain Conference', 'Exploring blockchain beyond cryptocurrency.', TO_DATE('2025-10-12', 'YYYY-MM-DD'), 'Boston');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (6, 'Data Science Bootcamp', 'Hands-on data science training.', TO_DATE('2025-11-25', 'YYYY-MM-DD'), 'Seattle');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (7, 'Startup Pitch Night', 'Showcasing innovative startups.', TO_DATE('2025-12-03', 'YYYY-MM-DD'), 'Austin');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (8, '5G and IoT Summit', 'Impact of 5G on IoT development.', TO_DATE('2026-01-15', 'YYYY-MM-DD'), 'San Diego');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (9, 'Green Tech Symposium', 'Sustainable technology solutions.', TO_DATE('2026-02-20', 'YYYY-MM-DD'), 'Denver');
+INSERT INTO Events (EventID, Name, Description, EventDate, Location) VALUES (10, 'Quantum Computing', 'The future of quantum computing.', TO_DATE('2026-03-10', 'YYYY-MM-DD'), 'Washington D.C.');
+
+
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (1, 'Alice Johnson', 'AI researcher at OpenAI.', 'Artificial Intelligence');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (2, 'Bob Smith', 'Cybersecurity specialist.', 'Cybersecurity');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (3, 'Charlie Lee', 'Blockchain developer.', 'Blockchain');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (4, 'Diana Patel', 'Cloud computing expert.', 'Cloud Computing');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (5, 'Ethan Wright', 'Data scientist.', 'Data Science');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (6, 'Fiona Green', 'Sustainability.', 'Green Technology');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (7, 'George Kim', 'Startup mentor .', 'Entrepreneurship');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (8, 'Hannah Brown', '5G and IoT engineer.', '5G and IoT');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (9, 'Isaac Newton', 'Quantum computing.', 'Quantum Computing');
+INSERT INTO Speakers (SpeakerID, Name, Bio, Expertise) VALUES (10, 'Jessica Wong', 'Tech policy expert.', 'Technology Ethics');
+
+
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (1, 1, 1, 'John Doe', 'johndoe@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (2, 2, 1, 'Emily Smith', 'emilysmith@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (3, 3, 2, 'Michael Brown', 'michaelbrown@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (4, 4, 4, 'Sarah Johnson', 'sarahj@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (5, 5, 3, 'David Lee', 'davidlee@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (6, 6, 5, 'Olivia Wilson', 'oliviawilson@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (7, 7, 7, 'Daniel Kim', 'danielkim@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (8, 8, 8, 'Sophia White', 'sophiawhite@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (9, 9, 6, 'James Green', 'jamesgreen@example.com');
+INSERT INTO Registrations (RegistrationID, EventID, SpeakerID, AttendeeName, Email) VALUES (10, 10, 9, 'Charlotte Taylor', 'charlottetaylor@gmail.com');
+
+
+
+
+
+
+

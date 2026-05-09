@@ -1,0 +1,177 @@
+**********************************************************
+User Input 
+
+DECLARE
+    v_no scorecard.par_no%TYPE := '&Enter_Participants_Number';
+
+    CURSOR c1 IS
+        SELECT par_no, SUM(marks) total_marks
+        FROM scorecard
+        WHERE par_no = v_no
+        GROUP BY par_no;
+
+BEGIN
+    FOR r IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE('Par No: ' || r.par_no);
+        DBMS_OUTPUT.PUT_LINE('Marks: ' || r.total_marks);
+    END LOOP;
+END;
+/
+
+
+DECLARE
+    v_no participants.part_no%TYPE := '&Enter_Participants_Number';
+
+    CURSOR c1 IS
+        SELECT p.part_name, c.comp_name, SUM(s.marks) total_marks
+        FROM scorecard s
+        JOIN participants p ON s.par_no = p.part_no
+        JOIN compitition c ON s.comp_code = c.comp_code
+        WHERE p.part_no = v_no
+        GROUP BY p.part_name, c.comp_name;
+
+BEGIN
+    FOR r IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE('Name: ' || r.part_name);
+        DBMS_OUTPUT.PUT_LINE('Competition: ' || r.comp_name);
+        DBMS_OUTPUT.PUT_LINE('Total Marks: ' || r.total_marks);
+        DBMS_OUTPUT.PUT_LINE('----------------------');
+    END LOOP;
+END;
+/
+
+***************************************************************
+Procedure
+
+CREATE OR REPLACE PROCEDURE get_participant
+(p_no IN participants.part_no%TYPE)
+IS
+   v_name participants.part_name%TYPE;
+BEGIN
+   SELECT part_name
+   INTO v_name
+   FROM participants
+   WHERE part_no = p_no;
+
+   DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+END;
+/
+
+
+
+    create or replace procedure em(e number)
+    is
+    cursor c1 is
+    select empno,ename,job,sal
+    from emp4
+    where empno=e;
+    begin
+    for r in c1 loop
+    DBMS_OUTPUT.PUT_LINE('Emp No: ' || r.empno);
+       DBMS_OUTPUT.PUT_LINE('Name: ' || r.ename);
+      DBMS_OUTPUT.PUT_LINE('Job: ' || r.job);
+       DBMS_OUTPUT.PUT_LINE('Salary: ' || r.sal);
+    END LOOP;
+   END;
+   /
+
+   create or replace procedure d(n number)
+    is
+    cursor c1 is
+    select deptno,sum(sal) total_salary
+    from emp4
+    where deptno=n
+    group by deptno 
+   ;
+    begin
+    for g in c1 loop
+    dbms_output.put_line('Number  ' || g.deptno);
+   dbms_output.put_line('Salary  ' || g.total_salary);
+   end loop;
+   end;
+   /
+
+    
+ create or replace  procedure fay(o number)
+   is
+   cursor c1 is
+    select e.empno,e.sal,s.grade
+    from emp4 e
+    join salgrade4 s on e.grade=s.grade
+    where e.empno=o;
+    begin
+   for r in c1 loop
+    dbms_output.put_line('Emp No: ' || r.empno);
+    dbms_output.put_line('Salary: ' || r.sal);
+    dbms_output.put_line('Grade: ' || r.grade);
+end loop;
+end;
+/
+
+ create or replace procedure d
+    is
+    cursor c1 is
+    select e.ename,d.dname,d.loc
+    from emp4 e
+    join dept4 d on e.deptno=d.deptno;
+  
+    begin
+     FOR r IN c1 LOOP
+       DBMS_OUTPUT.PUT_LINE('Name: ' || r.ename);
+      DBMS_OUTPUT.PUT_LINE('Dept: ' || r.dname);
+       DBMS_OUTPUT.PUT_LINE('Location: ' || r.loc);
+       DBMS_OUTPUT.PUT_LINE('----------------------');
+     END LOOP;
+   END;
+   /
+***************************************************************
+Package
+CREATE OR REPLACE PACKAGE pkg IS
+   PROCEDURE get_emp(eno NUMBER);
+END pkg;
+/
+
+CREATE OR REPLACE PACKAGE BODY pkg IS
+
+   PROCEDURE get_emp(eno NUMBER)
+   IS
+      CURSOR c1 IS
+         SELECT ename, sal
+         FROM emp4
+         WHERE empno = eno;
+   BEGIN
+      FOR r IN c1 LOOP
+         DBMS_OUTPUT.PUT_LINE('E name: ' || r.ename);
+         DBMS_OUTPUT.PUT_LINE('Salary: ' || r.sal);
+      END LOOP;
+   END get_emp;
+
+END pkg;
+/
+
+*********************************************************************
+Trigger
+
+
+1.)
+CREATE OR REPLACE TRIGGER check_salary
+BEFORE INSERT OR UPDATE ON emp4
+FOR EACH ROW
+BEGIN
+        IF :NEW.sal < 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be negative');
+    END IF;
+END;
+/
+
+2.)
+   create or replace trigger em
+    before insert or update on emp4
+    for each row
+    begin
+    if :new.empno<100 then
+    raise_application_error(-20002,'Cannot Enter Employee Number Less Than 100');
+    end if;
+   end;
+    /
+

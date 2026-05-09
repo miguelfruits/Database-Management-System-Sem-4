@@ -1,0 +1,106 @@
+1) display all records of employee table
+	select *from emp4;
+	
+	
+2) display empno ,name,sal whose salary is >4000
+	select empno,ename,sal
+	from emp
+	where sal>4000;
+	
+3) display empno ,name,sal whose salary is is not equal to 4000
+	select empno,ename,sal
+	from emp4
+	where sal != 4000;
+	
+	4) Display employee records whose grade is 11.
+	select *from 
+	from emp4
+	where grade = 11;
+	
+5) Display employee records whose grade is 11 as well as salary is >5000.
+	select *from 
+	from emp4
+	where grade = 11 and
+	sal>5000;
+
+5) Display employee records whose eithere empno is 102 or comm is >4000.
+	select *
+	from emp4
+	where empno=102 or 
+	comm>4000;
+	
+	
+6) Display employee reords whose empno is not >102 and <108
+	select *from emp4
+	where not(empno>102 and empno<108);
+	
+7) Display employee reords whose comm between 5000 to 7000
+	select *from emp4
+	where comm>5000 and comm<7000;
+
+8) display employee records whose empname is hiren
+	select *from emp4
+	where ename='Hiren';
+	
+	select *from emp4
+	where initcap(ename)=initcap('Hiren')  
+
+note :- 	lower or upper function is also used
+
+9) display employee records whose name length is 3.
+	 select *from emp4
+	 where length(ename)=3
+
+10) Find out the experience (year) of employees and display empname,hiredate and experience in year.
+	select ename,hiredate,floor((months_between(sysdate,hiredate))/12) 	"Experience" from emp4;
+	
+	
+11) Increase the salary 10% of employees whose experience is grater than 43.
+
+	update emp4
+	set sal=sal+sal*0.1
+	where floor((months_between(sysdate,hiredate))/12) > 43;
+	
+	
+12) Display the details of employee whose first letter is g.
+	select *from emp4
+	where ename like 'g%' or ename like 'G%' 
+
+13) Display the details of employee whose third letter is a.
+	select *from emp4
+	where ename like '__a%' or ename like '__A%'; 
+
+14) Display the details of employee whose third letter is a and total length is 5.
+
+	select *from emp4
+	where (ename like '__a%' or ename like '__A%' ) and length(ename)=5;
+
+15) Display the details of employee whose third letter is a and last letter is n.
+
+	select * from emp4
+	where (ename like '__a%' or ename like '__A%' ) and (ename like '%n' or ename like '%N' );
+
+16) Display the details of employee whose last letter is h.
+	select *from emp4
+	where (ename like '%h' or ename like '%H' );
+
+
+17) Display the details of employee whose first letter is s and last letter is h.
+	select *from emp4
+	where (ename like '%h' or ename like '%H' )
+	and (ename like 's%' or ename like 'S%' );
+
+18) Display the employee details whose hire year is less than 81.
+               select *from emp4
+	where EXTRACT(YEAR FROM hiredate) <1981;
+
+19) Display the employee details whose hire year between 81 and 83.
+               select *from emp4
+	where EXTRACT(YEAR FROM hiredate) between 1981 and 1983;
+
+20) Display the employee details whose hire date 01-oct 81 to 30-nov-1983
+
+	SELECT * FROM emp4
+	WHERE hiredate between TO_date('01-OCT-1981', 'DD-MON-YYYY')
+	AND (TO_date('30-NOV-1983','DD-MON-YYYY'));
+

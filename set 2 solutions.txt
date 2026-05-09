@@ -1,0 +1,42 @@
+1.)
+select * from
+(SELECT m.title,COUNT(*) AS total_count
+FROM Watchlist w
+JOIN Movies m
+ON w.movie_id = m.movie_id
+GROUP BY m.title
+ORDER BY total_count DESC)
+where rownum<=3;
+
+2.)
+SELECT User_id, COUNT(Movie_ID) AS MovieCount
+FROM Watchlist
+GROUP BY User_id
+HAVING COUNT(Movie_ID) >= 2;
+
+3.)
+DECLARE
+  v_count NUMBER;
+BEGIN
+  UPDATE Users
+  SET subscription_type = 'Free'
+  WHERE subscription_type = 'Standard';
+
+  v_count := SQL%ROWCOUNT;
+
+  DBMS_OUTPUT.PUT_LINE('Users updated: ' || v_count);
+END;
+/
+
+4.)
+DECLARE
+    CURSOR c_movies IS
+    SELECT title FROM Movies
+    WHERE release_year <= 2020;
+BEGIN
+  FOR r IN c_movies LOOP
+     DBMS_OUTPUT.PUT_LINE('Movie:- ' ||r.title);
+	DBMS_OUTPUT.PUT_LINE('---------------------------');
+  END LOOP;
+END;
+/

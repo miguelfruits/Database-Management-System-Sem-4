@@ -1,0 +1,49 @@
+1.)
+SELECT e.Name AS Event_Name, r.AttendeeName
+FROM Events e
+JOIN Registrations r
+ON e.EventID = r.EventID;
+
+2.)
+select * from
+( SELECT e.Name AS Event_Name, COUNT(r.AttendeeName) AS Total_Attendees
+FROM Events e
+JOIN Registrations r
+ON e.EventID = r.EventID
+GROUP BY e.Name
+ORDER BY Total_Attendees DESC)
+where rownum<=3;
+
+3.)
+DECLARE
+    old_loc VARCHAR2(50);
+    new_loc VARCHAR2(50);
+BEGIN
+    old_loc := '&Enter_Old_Location';
+    new_loc := '&Enter_New_Location';
+
+    UPDATE Events
+    SET Location = new_loc
+    WHERE Location = old_loc;
+
+    DBMS_OUTPUT.PUT_LINE('Rows Updated: ' || old_loc);
+END;
+/
+
+4.)
+DECLARE
+    CURSOR c1 IS
+        SELECT RegistrationID, EventID, SpeakerID, AttendeeName, Email
+        FROM Registrations;
+BEGIN
+    FOR r IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE('-----------------------------');
+        DBMS_OUTPUT.PUT_LINE('Registration ID : ' || r.RegistrationID);
+        DBMS_OUTPUT.PUT_LINE('Event ID        : ' || r.EventID);
+        DBMS_OUTPUT.PUT_LINE('Speaker ID      : ' || r.SpeakerID);
+        DBMS_OUTPUT.PUT_LINE('Attendee Name   : ' || r.AttendeeName);
+        DBMS_OUTPUT.PUT_LINE('Email           : ' || r.Email);
+        DBMS_OUTPUT.PUT_LINE('-----------------------------');
+    END LOOP;
+END;
+/

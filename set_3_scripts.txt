@@ -1,0 +1,103 @@
+Consider a schema with three tables representing a library management system:
+
+1. Books Table (Books):
+
+book_id (NUMBER(10) PRIMARY KEY): Unique identifier for each book (integer).
+title (VARCHAR2(255) NOT NULL): Title of the book.
+author (VARCHAR2(100) NOT NULL): Author of the book.
+isbn (VARCHAR2(13)): International Standard Book Number (unique identifier for books).
+genre (VARCHAR2(50)): Genre of the book (e.g., Fiction, Non-Fiction, etc.).
+publication_year (NUMBER(4)): Year the book was published.
+
+2. Members Table (Members):
+
+member_id (NUMBER(10) PRIMARY KEY): Unique identifier for each member (integer).
+name (VARCHAR2(100) NOT NULL): Name of the member.
+contact_info (VARCHAR2(255)): Member's contact information (e.g., email, phone number).
+membership_type (VARCHAR2(20)): Type of membership (e.g., Standard, Premium, etc.).
+
+3. Borrows Table (Borrows):
+
+borrow_id (NUMBER(10) PRIMARY KEY): Unique identifier for each borrowing record (integer).
+book_id (NUMBER(10) FOREIGN KEY REFERENCES Books(book_id)): References the book ID from the Books table.
+member_id (NUMBER(10) FOREIGN KEY REFERENCES Members(member_id)): References the member ID from the Members table.
+borrowed_date (DATE): Date the book was borrowed by the member.
+returned_date (DATE): Date the book was returned by the member (NULL if not returned yet).
+
+
+--CREATE TABLE SCRIPTS
+CREATE TABLE Books (
+  book_id NUMBER(10) PRIMARY KEY,
+  title VARCHAR2(25) NOT NULL,
+  author VARCHAR2(10) NOT NULL,
+  isbn VARCHAR2(13),
+  genre VARCHAR2(20),
+  publication_year NUMBER(4),
+  stock number(3)
+);
+
+CREATE TABLE Members (
+  member_id NUMBER(10) PRIMARY KEY,
+  name VARCHAR2(20) NOT NULL,
+  contact_info VARCHAR2(25),
+  membership_type VARCHAR2(20)
+);
+
+CREATE TABLE Borrows (
+  borrow_id NUMBER(10) PRIMARY KEY,
+  book_id NUMBER(10) REFERENCES Books(book_id),
+  member_id NUMBER(10) REFERENCES Members(member_id),
+  borrowed_date DATE,
+  returned_date DATE
+);
+
+--INSERT RECORD SCRIPTS
+INSERT INTO Books (book_id, title, author, isbn, genre, publication_year)
+VALUES (1, 'The Lord', 'Tolkien', '9780261102694', 'Fantasy', 1954);
+
+INSERT INTO Books (book_id, title, author, isbn, genre, publication_year)
+VALUES (2, 'Prejudice', 'Jane', '9780140439516', 'Romance', 1813);
+
+INSERT INTO Books (book_id, title, author, isbn, genre, publication_year)
+VALUES (3, 'Kill Mockingbird', 'Harper', '9780446310727', 'Fiction', 1960);
+
+INSERT INTO Books (book_id, title, author, isbn, genre, publication_year)
+VALUES (4, 'A Brief History', 'Stephen', '9780553890843', 'Science', 1988);
+
+INSERT INTO Books (book_id, title, author, isbn, genre, publication_year)
+VALUES (5, 'The Hitchhiker', 'Douglas', '9780345391803', 'Science Fiction', 1979);
+
+
+
+INSERT INTO Members (member_id, name, contact_info, membership_type)
+VALUES (1, 'John Doe', 'johndoe@example.com', 'Standard');
+
+INSERT INTO Members (member_id, name, contact_info, membership_type)
+VALUES (2, 'Jane Smith', 'janesmith@example.com', 'Premium');
+
+INSERT INTO Members (member_id, name, contact_info, membership_type)
+VALUES (3, 'Michael Brown', 'michaelbrown@example.com', 'Standard');
+
+INSERT INTO Members (member_id, name, contact_info, membership_type)
+VALUES (4, 'Alice White', 'alicewhite@example.com', 'Premium');
+
+INSERT INTO Members (member_id, name, contact_info, membership_type)
+VALUES (5, 'David Miller', 'davidmiller@example.com', 'Standard');
+
+
+
+INSERT INTO Borrows (borrow_id, book_id, member_id, borrowed_date, returned_date)
+VALUES (1, 1, 1, SYSDATE, NULL);
+
+INSERT INTO Borrows (borrow_id, book_id, member_id, borrowed_date, returned_date)
+VALUES (2, 2, 2, SYSDATE - 7, SYSDATE);  
+
+INSERT INTO Borrows (borrow_id, book_id, member_id, borrowed_date, returned_date)
+VALUES (3, 3, 3, SYSDATE - 14, NULL);  
+
+INSERT INTO Borrows (borrow_id, book_id, member_id, borrowed_date, returned_date)
+VALUES (4, 4, 4, SYSDATE - 21, NULL);  
+
+INSERT INTO Borrows (borrow_id, book_id, member_id, borrowed_date, returned_date)
+VALUES (5, 5, 5, SYSDATE, NULL);  
+

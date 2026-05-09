@@ -1,0 +1,126 @@
+Consider a schema with three tables representing an online movie streaming service
+
+Movies Table (Movies):
+
+movie_id (NUMBER(10) PRIMARY KEY): Unique identifier for each movie (integer).
+title (VARCHAR2(255) NOT NULL): Title of the movie.
+release_year (NUMBER(4)): Year the movie was released.
+director (VARCHAR2(100)): Director of the movie.
+genre (VARCHAR2(50)): Genre of the movie (e.g., Comedy, Drama, etc.).
+description (VARCHAR2(4000)): Description of the movie.
+duration (NUMBER(4)): Duration of the movie in minutes.
+
+
+Users Table (Users):
+
+user_id (NUMBER(10) PRIMARY KEY): Unique identifier for each user (integer).
+username (VARCHAR2(50) NOT NULL) UNIQUE: Username for login (unique).
+email (VARCHAR2(255) NOT NULL) UNIQUE: User's email address (unique).
+subscription_type (VARCHAR2(20)): Type of user subscription (e.g., Free, Standard, Premium).
+
+
+Watchlist Table (Watchlist):
+
+watchlist_id (NUMBER(10) PRIMARY KEY): Unique identifier for each watchlist entry (integer).
+user_id (NUMBER(10) FOREIGN KEY REFERENCES Users(user_id)): References the user ID from the Users table.
+movie_id (NUMBER(10) FOREIGN KEY REFERENCES Movies(movie_id)): References the movie ID from the Movies table.
+added_date (DATE): Date the movie was added to the watchlist.
+
+
+--CREATE TABLE SCRIPTS
+CREATE TABLE Movies (
+  movie_id NUMBER(10) PRIMARY KEY,
+  title VARCHAR2(25) NOT NULL,
+  release_year NUMBER(4),
+  director VARCHAR2(25),
+  genre VARCHAR2(20),
+  description VARCHAR2(40),
+  duration NUMBER(4)
+);
+
+CREATE TABLE Users (
+  user_id NUMBER(10) PRIMARY KEY,
+  username VARCHAR2(25) NOT NULL UNIQUE,
+  email VARCHAR2(25) NOT NULL UNIQUE,
+  subscription_type VARCHAR2(20)
+);
+
+CREATE TABLE Watchlist (
+  watchlist_id NUMBER(10) PRIMARY KEY,
+  user_id NUMBER(10) REFERENCES Users(user_id),
+  movie_id NUMBER(10) REFERENCES Movies(movie_id),
+  added_date DATE
+);
+
+
+--INSERT RECORD SCRIPTS
+-- Insert 1
+INSERT INTO Movies (movie_id, title, release_year, director, genre, description, duration)
+VALUES (1, 'The Shawshank Redemption', 1994, 'Frank Darabont', 'Drama', 
+       'Two imprisoned men', 142);
+
+-- Insert 2
+INSERT INTO Movies (movie_id, title, release_year, director, genre, description, duration)
+VALUES (2, 'The Godfather', 1972, 'Francis', 'Crime', 
+       'Corleone family', 175);
+
+-- Insert 3
+INSERT INTO Movies (movie_id, title, release_year, director, genre, description, duration)
+VALUES (3, 'The Dark Knight', 2008, 'Christopher Nolan', 'Thriller', 
+       'Joker emerges ', 152);
+
+-- Insert 4
+INSERT INTO Movies (movie_id, title, release_year, director, genre, description, duration)
+        VALUES (4, 'Pulp Fiction', 1994, 'Quentin', 'Crime',  
+               'two mob hitmen', 154);
+
+-- Insert 5
+INSERT INTO Movies (movie_id, title, release_year, director, genre, description, duration)
+VALUES (5, 'Inception', 2010, 'Christopher', 'Sci-Fi', 
+       'A professional thief', 148);
+
+
+-- Insert 1
+INSERT INTO Users (user_id, username,  email, subscription_type)
+VALUES (1, 'johndoe',  'johndoe@example.com', 'Standard');
+
+-- Insert 2
+INSERT INTO Users (user_id, username,  email, subscription_type)
+VALUES (2, 'janesmith',  'janesmith@example.com', 'Premium');
+
+-- Insert 3
+INSERT INTO Users (user_id, username,  email, subscription_type)
+VALUES (3, 'michaelscott', 'michaelscott@example.com', 'Free');
+
+-- Insert 4
+INSERT INTO Users (user_id, username,  email, subscription_type)
+VALUES (4, 'dwightschrute',  'dwightschrute@example.com', 'Standard');
+
+-- Insert 5
+INSERT INTO Users (user_id, username,  email, subscription_type)
+VALUES (5, 'pambeesly', 'pambeesly@example.com', 'Premium');
+
+
+
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (1, 1, 1, SYSDATE); 
+
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (2,2, 2, SYSDATE - 7);  
+INSERT INTO Watchlist (watchlist_id,user_id, movie_id, added_date)
+VALUES (3, 2, 3, SYSDATE);  
+
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (4, 3, 4, SYSDATE - 14);  
+
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (5, 4, 1, SYSDATE - 21);  
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (6, 4, 5, SYSDATE);  
+
+INSERT INTO Watchlist (watchlist_id, user_id, movie_id, added_date)
+VALUES (7, 5, 3, SYSDATE); 
+
+
+
+

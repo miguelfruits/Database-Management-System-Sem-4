@@ -1,0 +1,162 @@
+********************************
+DECLARE
+   v_name participants.part_name%TYPE;
+BEGIN
+   SELECT part_name
+   INTO v_name
+   FROM participants
+   WHERE part_no = 'S0002'; 
+
+   DBMS_OUTPUT.PUT_LINE('Participants Name: ' ||v_name);
+
+EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('Participant Not Found');
+END;
+/
+**********************************
+ 
+	 SELECT * FROM
+       (
+   SELECT P.PART_NAME,SUM(S.MARKS) TOTAL_M
+   FROM PARTICIPANTS P 
+    JOIN SCORECARD S ON P.PART_NO=S.PAR_NO
+     GROUP BY P.PART_NAME
+     ORDER BY TOTAL_M DESC
+        )
+   WHERE ROWNUM<=3;
+
+
+***********************************
+ Declare
+    cursor c1 is
+   select par_no,sum(marks) t_marks
+    from scorecard
+     group by par_no;
+    begin
+    for p in c1 loop
+    dbms_output.put_line('Par no ' || p.par_no);
+    dbms_output.put_line('Marks ' || p.t_marks);
+  end loop;
+   EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('Not Found');
+   end;
+   /
+
+*********************************
+    declare
+    cursor c1 is
+    select c.comp_name,avg(s.marks) avg_marks 
+    from compitition c 
+   join scorecard s  on c.comp_code=s.comp_code
+    group by c.comp_name;
+    begin
+    for s in c1 loop
+    dbms_output.put_line('Comp Name  ' || s.comp_name);
+    dbms_output.put_line('Marks  ' || s.avg_marks);
+    end loop;
+    end;
+   /
+
+
+********************************
+   declare
+    cursor c1 is
+    select par_no,count(comp_code) total
+    from scorecard
+    group by par_no;
+    begin
+    for d in c1 loop
+    dbms_output.put_line('Par No  ' || d.par_no);
+    dbms_output.put_line('Compititon Code  ' || d.total);
+
+    end loop;
+   end;
+   /
+
+
+**************************************
+   declare
+   cursor c1 is
+   select * from (
+    select p.part_name,sum(s.marks) Top_score
+    from participants p 
+    join scorecard s on p.part_no=s.par_no
+   group by p.part_name
+   order by Top_score desc
+      ) 
+   where rownum=1;
+    begin
+    for e in c1 loop
+    dbms_output.put_line('Name  ' || e.part_name);
+    dbms_output.put_line('Top Scorer  ' || e.Top_score);
+   end loop;
+   end;
+   /
+
+
+**************************************
+
+    begin
+    update scorecard
+    set marks=marks+60
+    where par_no='P0001';
+   end;
+   /
+**************************************
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+   v_total NUMBER;
+BEGIN
+   SELECT SUM(marks)
+   INTO v_total
+   FROM scorecard
+   WHERE par_no = 'P0002';
+
+   IF v_total >= 250 THEN
+      DBMS_OUTPUT.PUT_LINE('Excellent');
+   ELSIF v_total >= 150 THEN
+      DBMS_OUTPUT.PUT_LINE('Good');
+   ELSE
+      DBMS_OUTPUT.PUT_LINE('Needs Improvement');
+   END IF;
+END;
+/
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+   v_name participants.part_name%TYPE;
+   v_total NUMBER;
+BEGIN
+   SELECT p.part_name, SUM(s.marks)
+   INTO v_name, v_total
+   FROM participants p, scorecard s
+   WHERE p.part_no = s.par_no
+   AND p.part_no = 'P0001'
+   GROUP BY p.part_name;
+
+   DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+   DBMS_OUTPUT.PUT_LINE('Total Marks: ' || v_total);
+END;
+/
+
+
+ declare
+   p_name participants.part_name%type;
+    tot number;
+    begin
+    select p.part_name,sum(s.marks)
+    into p_name,tot
+    from participants p, scorecard s
+    where p.part_no=s.par_no
+    and p.part_no='P0001'
+    group by p.part_no;
+  dbms_output.put_line('Participants Name  ' || p_name);
+  dbms_output.put_line('Marks  ' || tot);
+end;
+/
+     

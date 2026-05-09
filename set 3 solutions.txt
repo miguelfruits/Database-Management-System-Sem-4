@@ -1,0 +1,48 @@
+1.)
+SELECT b.title, m.name
+FROM Books b
+JOIN Borrows br ON b.book_id = br.book_id
+JOIN Members m ON br.member_id = m.member_id
+WHERE br.returned_date IS NULL;
+
+2.)
+select * from 
+(
+SELECT b.title, COUNT(*) AS total
+FROM Books b
+JOIN Borrows br ON b.book_id = br.book_id
+GROUP BY b.title
+ORDER BY total DESC)
+where rownum<=3;
+
+3.)
+
+BEGIN
+  UPDATE Books
+  SET genre='Classic'
+  WHERE publication_year < 2000;
+
+  DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT);
+END;
+/
+
+4.)
+DECLARE
+    CURSOR c_books IS
+    SELECT b.title, m.name
+    FROM Books b
+    JOIN Borrows br ON b.book_id = br.book_id
+    JOIN Members m ON br.member_id = m.member_id
+    WHERE br.returned_date IS NULL;
+Begin
+    	for r in c_books loop
+		DBMS_OUTPUT.PUT_LINE('-----------------------');
+		DBMS_OUTPUT.PUT_LINE('Book Title:- ' || r.title);
+		DBMS_OUTPUT.PUT_LINE('Member Name:- ' || r.name);
+		DBMS_OUTPUT.PUT_LINE('-----------------------');
+	end loop;
+end;
+/	
+
+	
+
